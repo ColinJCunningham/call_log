@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import React from "react";
+import ReactDOM from "react-dom";
+import { Box, Grommet } from "grommet";
+import Nav from "./Components/Header/index";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Grommet background='light-5' full={true}>
+			<Nav />
+			<Box
+				direction='row'
+				border={{ color: "dark-1", size: "small" }}
+				pad='xsmall'>
+				<Box pad='small' background='dark-3' />
+				<Box pad='medium' background='light-3' />
+			</Box>
+		</Grommet>
+	);
 }
 
 export default App;
