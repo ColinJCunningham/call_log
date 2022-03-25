@@ -6,12 +6,12 @@ import Nav from "./Components/Header/index";
 import Body from "./Components/Body/index";
 
 function App() {
-  return (
-    <Grommet background="light-5" full={true}>
-      <Nav />
-      <Body />
-    </Grommet>
-  );
+	return (
+		<Grommet background='light-5' full={true}>
+			<Nav />
+			<Body />
+		</Grommet>
+	);
 }
 
 export default App;
