@@ -5,7 +5,7 @@ import Random from "../../../Utils/quotes";
 const myTheme = {
 	paragraph: {
 		font: {
-			family: "stella",
+			family: "hind",
 		},
 	},
 };
@@ -17,15 +17,15 @@ export default function Quote() {
 		<Grommet theme={myTheme} pad='none'>
 			<Box pad='none'>
 				<Paragraph
-					size='xlarge'
+					size='large'
 					responsive={true}
-					textAlign='left'
+					textAlign='center'
 					alignSelf='center'>
 					{Random[number].quote}
 					<br />
 					<Text
-						size='medium'
-						style={{ paddingLeft: "50%", fontStyle: "italic" }}>
+						size='small'
+						style={{ fontStyle: "italic", fontEmphasis: "800" }}>
 						{"- " + Random[number].name}
 					</Text>
 				</Paragraph>
