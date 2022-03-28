@@ -19,6 +19,7 @@ export default function Nav() {
 		<Grommet theme={myTheme} pad='none'>
 			<Header background='dark-1' pad='small'>
 				<Button
+					onClick={(e) => window.location.reload()}
 					id='bhead'
 					background='dark-1'
 					label='Refresh'

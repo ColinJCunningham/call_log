@@ -51,14 +51,18 @@ export default function Body() {
 	);
 
 	return (
-		<Grommet background='light-5' theme={customBreakpoints}>
+		<Grommet
+			style={{ marginBottom: "10%" }}
+			background='light-5'
+			theme={customBreakpoints}>
 			<Box
 				margin={{
 					top: "large",
 				}}
 				gap='medium'
 				direction='row-responsive'
-				pad='small'>
+				pad='small'
+				style={{ maxHeight: "30rem" }}>
 				<Box
 					elevation='large'
 					id='box1'

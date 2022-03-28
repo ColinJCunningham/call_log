@@ -15,7 +15,7 @@ const number = Math.floor(Math.random() * 20 + 1);
 export default function Quote() {
 	return (
 		<Grommet theme={myTheme} pad='none'>
-			<Box pad='none'>
+			<Box overflow='hidden' pad='none'>
 				<Paragraph
 					size='large'
 					responsive={true}

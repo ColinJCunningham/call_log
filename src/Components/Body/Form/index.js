@@ -8,16 +8,57 @@ import {
 	TextArea,
 } from "grommet";
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import db from "../../../Utils/firebase";
+import Currentdate from "../Calendar/calendar";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 export default function Logger() {
 	const [value, setValue] = React.useState("one");
+	const [data, setData] = useState([]);
+	const [id, setId] = useState([]);
+	const [phone, setPhone] = useState("");
+
+	let currentDate = new Date();
+
+	const makeId = () => {
+		let ID = "";
+		let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		for (var i = 0; i < 12; i++) {
+			ID += characters.charAt(Math.floor(Math.random() * 36));
+		}
+		setId(ID);
+	};
+
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors },
 	} = useForm();
-	const onSubmit = (data) => console.log(data);
+
+	const onSubmit = (data) =>
+		db
+			.collection("call")
+			.add({
+				name: data.name,
+				plan: data.plan,
+				phone: phone,
+				note: data.notes,
+				transfer: data.transfer ? data.transfer : null,
+				value: value,
+				date: currentDate,
+				id: id,
+			})
+			.then((docRef) => {
+				alert("Call Successfully Logged");
+				document.getElementById("form").reset();
+				setValue("one");
+			})
+			.catch((error) => {
+				console.error("Error adding document: ", error);
+			});
 
 	const textstyle = {
 		backgroundColor: "white",
@@ -26,9 +67,13 @@ export default function Logger() {
 		fontWeight: "900",
 	};
 
+	useEffect(() => {
+		makeId();
+	}, []);
+
 	// Hind
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form id='form' onSubmit={handleSubmit(onSubmit)}>
 			<Box pad='large' fill={true} direction='row'>
 				<Box
 					style={{
@@ -55,16 +100,25 @@ export default function Logger() {
 							placeholder='Plan Name'
 						/>
 					</FormField>
-					<FormField label='Call Back Number'>
-						<TextInput
-							style={textstyle}
-							defaultValue=''
-							{...register("phone")}
+					<FormField
+						style={{ width: "fit-content", overflow: "hidden" }}
+						label='Call Back Number'>
+						<PhoneInput
+							inputProps={{
+								style: {
+									marginLeft: "10%",
+									padding: "1.4rem",
+								},
+							}}
+							country='us'
+							value={phone}
+							onChange={(phone) => setPhone(phone)}
 							placeholder='123-456-7890'
 						/>
 					</FormField>
 					<FormField label='General Notes'>
 						<TextArea
+							resize={true}
 							{...register("notes")}
 							style={textstyle}
 							placeholder='...'
@@ -90,17 +144,36 @@ export default function Logger() {
 						}}>
 						Call Outcome
 					</Header>
-					<RadioButtonGroup
-						style={{
-							marginBottom: "10%",
-							fontFamily: "hind",
-							fontSize: "1.3em",
-						}}
-						name='doc'
-						options={["Transferred", "Call Back", "Completed"]}
-						value={value}
-						onChange={(event) => setValue(event.target.value)}
-					/>
+					<Box direction='row'>
+						<RadioButtonGroup
+							style={{
+								marginBottom: "10%",
+								fontFamily: "hind",
+								fontSize: "1.3em",
+							}}
+							name='doc'
+							options={["Transferred", "Call Back", "Completed"]}
+							value={value}
+							onChange={(event) => setValue(event.target.value)}
+						/>
+						{value === "Transferred" ? (
+							<FormField
+								style={{ paddingLeft: "10%", minHeight: "5rem" }}
+								label='Transfered To:'>
+								<TextInput
+									style={{
+										width: "100%",
+										backgroundColor: "whitesmoke",
+										padding: "none",
+									}}
+									defaultValue=''
+									{...register("transfer")}
+								/>
+							</FormField>
+						) : (
+							<div> </div>
+						)}
+					</Box>
 					<input
 						style={{
 							fontFamily: "hind",
